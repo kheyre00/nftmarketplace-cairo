@@ -1,0 +1,91 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "69749e32",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%%cairo\n",
+    "import cairosvg\n",
+    "\n",
+    "\n",
+    "contract NFTMarketplace {\n",
+    "    \n",
+    "    // Mapping to store NFTs for sale and their corresponding prices\n",
+    "    mapping(felt nftId => felt price) nftsForSale;\n",
+    "\n",
+    "    // Function to list an NFT for sale at a specified price\n",
+    "    function listNFTForSale(felt nftId, felt price) {\n",
+    "\n",
+    "        // Verify that the sender owns the NFT before listing it\n",
+    "        require(isOwnerOfNFT(sender, nftId), \"NFT ownership required to list\");\n",
+    "\n",
+    "        // Set the NFT's price for sale\n",
+    "        nftsForSale[nftId] = price;\n",
+    "\n",
+    "        // Error: Incorrectly assigns the sender's balance to the NFT's price\n",
+    "        senderBalance = price;\n",
+    "    }\n",
+    "\n",
+    "    // Function to purchase an NFT from the marketplace\n",
+    "    function purchaseNFT(felt nftId) {\n",
+    "\n",
+    "        // Validate that the NFT is actually up for sale\n",
+    "        require(nftsForSale[nftId] != 0, \"NFT not available for purchase\");\n",
+    "\n",
+    "        // Ensure the buyer has sufficient funds to cover the NFT's price\n",
+    "        require(senderBalance >= nftsForSale[nftId], \"Insufficient funds to purchase NFT\");\n",
+    "\n",
+    "        // Transfer the NFT ownership to the buyer and the corresponding funds to the seller\n",
+    "        transferNFT(nftId, sender);\n",
+    "        transferFunds(seller, nftsForSale[nftId]);\n",
+    "\n",
+    "        // Remove the NFT from the marketplace since it has been purchased\n",
+    "        delete nftsForSale[nftId];\n",
+    "\n",
+    "        // Error: Incorrectly attempts to update the NFT's price to 0 after purchase\n",
+    "        nftsForSale[nftId] = 0;\n",
+    "    }\n",
+    "\n",
+    "    // Function to determine whether an account owns a specific NFT\n",
+    "    function isOwnerOfNFT(felt account, felt nftId) {\n",
+    "        // Implement logic to check NFT ownership\n",
+    "    }\n",
+    "\n",
+    "    // Function to transfer an NFT's ownership to another account\n",
+    "    function transferNFT(felt nftId, felt recipient) {\n",
+    "        // Implement logic to transfer NFT ownership\n",
+    "    }\n",
+    "\n",
+    "    // Function to transfer funds from one account to another\n",
+    "    function transferFunds(felt from, felt to, felt amount) {\n",
+    "        // Implement logic to transfer funds\n",
+    "    }\n",
+    "}"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.12"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
